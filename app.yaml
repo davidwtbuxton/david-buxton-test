@@ -1,0 +1,18 @@
+application: david-buxton-test
+version: dev
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+  - url: /.*
+    script: dbux.wsgi.application
+
+skip_files:
+  - ^(.*/)?#.*#$
+  - ^(.*/)?.*~$
+  - ^(.*/)?.*\.py[co]$
+  - ^(.*/)?.*/RCS/.*$
+  - ^(.*/)?\..*$
+
+  - ^libs/.*\.dist-info/
