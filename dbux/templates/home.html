@@ -1,17 +1,1 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-
-<table>
-{% for key, value in env %}
-	<tr>
-		<th>{{ key }}</th>
-		<td><pre>{{ value }}</pre></td>
-	</tr>
-{% endfor %}
-</table>
-
-</body>
-</html>
+{% extends 'base.html' %}
