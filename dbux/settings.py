@@ -1,6 +1,7 @@
 import os
 
 from . import boot
+from . import utils
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,15 +27,21 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
             ],
+            'loaders': ['django.template.loaders.app_directories.Loader'],
         },
     },
 ]
+
+if utils.on_production():
+    loaders = TEMPLATES[0]['OPTIONS']['loaders']
+    loaders[:] = [
+        ('django.template.loaders.cached.Loader', list(loaders)),
+    ]
 
 WSGI_APPLICATION = 'dbux.wsgi.application'
 

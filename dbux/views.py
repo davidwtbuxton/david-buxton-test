@@ -9,6 +9,8 @@ from django.views.generic import TemplateView
 from google.appengine.api import memcache
 from google.appengine.ext import deferred
 
+from . import utils
+
 
 class HomeView(TemplateView):
     template_name = 'home.html'
@@ -73,10 +75,6 @@ def environment_task(request):
     return HttpResponse('OK')
 
 
-def on_production():
-    return not os.environ.get('SERVER_SOFTWARE', 'Development').startswith('Development')
-
-
 @csrf_exempt
 def deferred_handler(request):
     from google.appengine.ext.deferred.deferred import (
@@ -95,7 +93,7 @@ def deferred_handler(request):
         response.status_code = 403
         return response
 
-    in_prod = on_production()
+    in_prod = utils.on_production()
 
     if in_prod and os.environ.get("REMOTE_ADDR") != "0.1.0.2":
         logging.critical('Detected an attempted XSRF attack. This request did not originate from Task Queue.')

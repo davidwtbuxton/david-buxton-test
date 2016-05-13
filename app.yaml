@@ -4,6 +4,10 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+libraries:
+  - name: ssl
+    version: "2.7"
+
 handlers:
   - url: /_ah/.*
     script: dbux.wsgi.application
