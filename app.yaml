@@ -4,21 +4,20 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
-libraries:
-  - name: ssl
-    version: "2.7"
+builtins:
+  - deferred: on
 
 handlers:
   - url: /_ah/.*
-    script: dbux.wsgi.application
+    script: wsgi.app
     login: admin
 
   - url: /tasks/.*
-    script: dbux.wsgi.application
+    script: wsgi.app
     login: admin
 
   - url: /.*
-    script: dbux.wsgi.application
+    script: wsgi.app
 
 skip_files:
   - ^(.*/)?#.*#$

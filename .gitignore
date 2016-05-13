@@ -1,3 +1,5 @@
 *.py[cod]
 *.dist-info/
-/libs/
+/bottle.py
+/jinja2/
+/markupsafe/
