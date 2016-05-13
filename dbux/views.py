@@ -21,6 +21,8 @@ class EnvView(TemplateView):
 
     def get_context_data(self, **kwargs):
         kwargs['env'] = sorted((k, v, repr(type(v))) for k, v in os.environ.items())
+        kwargs['env_updated'] = timezone.now()
+
         return super(EnvView, self).get_context_data(**kwargs)
 
 env = EnvView.as_view()
