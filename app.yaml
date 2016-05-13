@@ -5,6 +5,10 @@ api_version: 1
 threadsafe: true
 
 handlers:
+  - url: /_ah/.*
+    script: dbux.wsgi.application
+    login: admin
+
   - url: /.*
     script: dbux.wsgi.application
 
