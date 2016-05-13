@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Boo</title>
+	<title>{% block title %}{{ env_name|default:'Boo' }}{% endblock %}</title>
 	<style>
 	body {
 		font-family: sans-serif;
@@ -21,8 +21,10 @@
 
 <nav>
 <ul>
+	<li><a href="{% url 'home' %}">{% url 'home' %}</a></li>
 	<li><a href="{% url 'env' %}">{% url 'env' %}</a></li>
 	<li><a href="{% url 'deferred_env' %}">{% url 'deferred_env' %}</a></li>
+	<li><a href="{% url 'cron_env' %}">{% url 'cron_env' %}</a></li>
 </ul>
 </nav>
 

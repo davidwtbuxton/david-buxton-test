@@ -9,6 +9,10 @@ handlers:
     script: dbux.wsgi.application
     login: admin
 
+  - url: /tasks/.*
+    script: dbux.wsgi.application
+    login: admin
+
   - url: /.*
     script: dbux.wsgi.application
 

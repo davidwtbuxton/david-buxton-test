@@ -22,6 +22,7 @@ class EnvView(TemplateView):
     def get_context_data(self, **kwargs):
         kwargs['env'] = sorted((k, v, repr(type(v))) for k, v in os.environ.items())
         kwargs['env_updated'] = timezone.now()
+        kwargs['env_name'] = 'request'
 
         return super(EnvView, self).get_context_data(**kwargs)
 
@@ -31,24 +32,43 @@ env = EnvView.as_view()
 class DeferredEnvView(TemplateView):
     template_name = 'env.html'
 
-    def dispatch(self, request):
-        deferred.defer(save_deferred_environment)
-
-        return super(DeferredEnvView, self).dispatch(request)
-
     def get_context_data(self, **kwargs):
-        kwargs['env'] = memcache.get('deferred_env') or {}
+        kwargs['env'] = memcache.get('deferred_env') or []
         kwargs['env_updated'] = memcache.get('deferred_env_updated')
+        kwargs['env_name'] = 'deferred task'
 
         return super(DeferredEnvView, self).get_context_data(**kwargs)
 
 deferred_env = DeferredEnvView.as_view()
 
 
+class CronEnvView(TemplateView):
+    template_name = 'env.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['env'] = memcache.get('cron_env') or []
+        kwargs['env_updated'] = memcache.get('cron_env_updated')
+        kwargs['env_name'] = 'cron task'
+
+        return super(CronEnvView, self).get_context_data(**kwargs)
+
+cron_env = CronEnvView.as_view()
+
+
 def save_deferred_environment():
     env = tuple(sorted((str(k), str(v), repr(type(v))) for k, v in os.environ.items()))
     memcache.set('deferred_env', env)
     memcache.set('deferred_env_updated', timezone.now())
+
+    return HttpResponse('OK')
+
+
+def environment_task(request):
+    env = tuple(sorted((str(k), str(v), repr(type(v))) for k, v in os.environ.items()))
+    memcache.set('cron_env', env)
+    memcache.set('cron_env_updated', timezone.now())
+
+    deferred.defer(save_deferred_environment)
 
     return HttpResponse('OK')
 
