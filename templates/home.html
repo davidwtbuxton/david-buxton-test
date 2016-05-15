@@ -1,1 +1,30 @@
 {% extends 'base.html' %}
+
+{% block content %}
+
+<h1>About this site</h1>
+
+<p>This site shows the environment variables that are set when running a web app on <a href="https://cloud.google.com/appengine/">Google App Engine's Python runtime</a>.</p>
+
+<p>
+	Specifically:
+	<ul>
+		<li>
+			<a href="{{ url('env') }}">Environment variables in a regular request</a>.
+		</li>
+		<li>
+			<a href="{{ url('deferred_env') }}">Environment variables in a deferred task</a>.
+		</li>
+		<li>
+			<a href="{{ url('cron_env') }}">Environment variables in a cron task</a>.
+		</li>
+	</ul>
+
+</p>
+
+{% filter urlize %}
+	<p>Source code on https://github.com/davidwtbuxton/david-buxton-test </p>
+	<p>Please send complaints to david@gasmark6.com, or create an issue or a pull request on <a href="https://github.com/davidwtbuxton/david-buxton-test">GitHub</a>.</p>
+{% endfilter %}
+
+{% endblock %}

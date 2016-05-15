@@ -8,13 +8,13 @@ builtins:
   - deferred: on
 
 handlers:
-  - url: /_ah/.*
-    script: wsgi.app
-    login: admin
-
   - url: /tasks/.*
     script: wsgi.app
     login: admin
+
+  - url: /site.css
+    static_files: site.css
+    upload: site.css
 
   - url: /.*
     script: wsgi.app

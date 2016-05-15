@@ -10,7 +10,7 @@ from google.appengine.ext import deferred
 
 bottle.debug(True)
 view = functools.partial(bottle.jinja2_view, template_lookup=['templates'])
-app = bottle.app()
+app = bottle.default_app()
 
 
 bottle.Jinja2Template.settings = {'autoescape': True}

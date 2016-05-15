@@ -1,0 +1,26 @@
+body {
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+table {
+    border-collapse: true;
+    font-size: 12px;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
+}
+
+td, th {
+    padding: 2px 5px;
+}
+
+th {
+    text-align: left;
+    border: 1px solid black;
+}
+
+a:visited {
+    color: blue;
+}
