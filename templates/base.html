@@ -2,18 +2,19 @@
 <html>
 <head>
 	<title>{% block title %}{{ env_name|default('Boo') }}{% endblock %}</title>
+	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="site.css">
 </head>
 <body>
 
 <nav>
-<h1>Navigation</h1>
-<ul>
-	<li><a href="{{ url('home') }}">{{ url('home') }}</a></li>
-	<li><a href="{{ url('env') }}">{{ url('env') }}</a></li>
-	<li><a href="{{ url('deferred_env') }}">{{ url('deferred_env') }}</a></li>
-	<li><a href="{{ url('cron_env') }}">{{ url('cron_env') }}</a></li>
-</ul>
+	<h1>Navigation</h1>
+	<ul>
+		<li><a href="{{ url('home') }}">{{ url('home') }} <span class="nav-home-text">about this site</span></a></li>
+		<li><a href="{{ url('env') }}">/ env</a></li>
+		<li><a href="{{ url('deferred_env') }}">/ deferred-env</a></li>
+		<li><a href="{{ url('cron_env') }}">/ cron-env</a></li>
+	</ul>
 </nav>
 
 <section class="content">
