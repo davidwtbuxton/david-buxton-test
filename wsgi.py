@@ -2,6 +2,7 @@ import datetime
 import functools
 import logging
 import os
+import re
 
 import bottle
 from google.appengine.api import memcache
@@ -17,6 +18,24 @@ bottle.Jinja2Template.settings = {'autoescape': True}
 bottle.Jinja2Template.defaults = {'url': bottle.url}
 
 
+def format_env():
+    """Returns a sorted tuple of the environment dictionary, and in theory
+    with memory addresses anonymised.
+    """
+    # Trying to find things that look like a memory address.
+    pattern = re.compile(r'0x[0-9a-f]{8,}')
+    anon_address = '0x12345678'
+    env = ((str(k), str(v), repr(type(v))) for k, v in os.environ.items())
+    clean_env = []
+
+    for key, value, kind in env:
+        value = pattern.sub(anon_address, value)
+        kind = pattern.sub(anon_address, kind)
+        clean_env.append((key, value, kind))
+
+    return tuple(sorted(clean_env))
+
+
 @app.route('/', name='home')
 @view('home.html')
 def home():
@@ -27,7 +46,7 @@ def home():
 @view('env.html')
 def env():
     return {
-        'env': sorted((k, v, repr(type(v))) for k, v in os.environ.items()),
+        'env': format_env(),
         'env_updated': datetime.datetime.now(),
         'env_name': 'request',
     }
@@ -56,7 +75,7 @@ def cron_env():
 
 @app.route('/tasks/environment')
 def environment_task():
-    env = tuple(sorted((str(k), str(v), repr(type(v))) for k, v in os.environ.items()))
+    env = format_env()
     memcache.set('cron_env', env)
     memcache.set('cron_env_updated', datetime.datetime.now())
 
@@ -66,7 +85,7 @@ def environment_task():
 
 
 def save_deferred_environment():
-    env = tuple(sorted((str(k), str(v), repr(type(v))) for k, v in os.environ.items()))
+    env = format_env()
     memcache.set('deferred_env', env)
     memcache.set('deferred_env_updated', datetime.datetime.now())
 
