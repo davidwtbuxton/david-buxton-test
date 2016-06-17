@@ -52,7 +52,6 @@ def env():
     }
 
 
-
 @app.route('/deferred-env', name='deferred_env')
 @view('env.html')
 def deferred_env():

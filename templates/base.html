@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>{% block title %}{{ env_name|default('Boo') }}{% endblock %}</title>
+	<title>{% block title %}{{ env_name|default('about')|capitalize }} - environment variables on App Engine{% endblock %}</title>
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="site.css">
 </head>
