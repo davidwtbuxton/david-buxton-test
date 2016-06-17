@@ -47,7 +47,7 @@ def home():
 def env():
     return {
         'env': format_env(),
-        'env_updated': datetime.datetime.now(),
+        'env_updated': datetime.datetime.utcnow(),
         'env_name': 'request',
     }
 
@@ -76,7 +76,7 @@ def cron_env():
 def environment_task():
     env = format_env()
     memcache.set('cron_env', env)
-    memcache.set('cron_env_updated', datetime.datetime.now())
+    memcache.set('cron_env_updated', datetime.datetime.utcnow())
 
     deferred.defer(save_deferred_environment)
 
@@ -86,6 +86,6 @@ def environment_task():
 def save_deferred_environment():
     env = format_env()
     memcache.set('deferred_env', env)
-    memcache.set('deferred_env_updated', datetime.datetime.now())
+    memcache.set('deferred_env_updated', datetime.datetime.utcnow())
 
     return 'OK'
