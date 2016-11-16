@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Python import path</h1>
+
+<ol>
+{% for path in paths %}
+	<li>{{ path }}</li>
+{% endfor %}
+</ol>
+
+{% endblock %}

@@ -3,6 +3,7 @@ import functools
 import logging
 import os
 import re
+import sys
 
 import bottle
 from google.appengine.api import memcache
@@ -40,6 +41,15 @@ def format_env():
 @view('home.html')
 def home():
     return {}
+
+
+@app.route('/python-path', name='python_path')
+@view('python_path.html')
+def python_path():
+    return {
+        'env_name': 'Python import path',
+        'paths': sys.path,
+    }
 
 
 @app.route('/env', name='env')

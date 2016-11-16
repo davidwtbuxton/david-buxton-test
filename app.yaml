@@ -26,4 +26,4 @@ skip_files:
   - ^(.*/)?.*/RCS/.*$
   - ^(.*/)?\..*$
 
-  - ^libs/.*\.dist-info/
+  - ^.*\.(dist|egg)-info/
