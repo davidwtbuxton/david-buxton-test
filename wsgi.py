@@ -99,3 +99,17 @@ def save_deferred_environment():
     memcache.set('deferred_env_updated', datetime.datetime.utcnow())
 
     return 'OK'
+
+
+@app.route('/gaia', name='gaia')
+def gaia():
+    from google.appengine.api import users
+
+    email = bottle.request.query.email
+    user = users.User(email) if email else None
+
+    return {
+        'email': email,
+        'user_id': user.user_id(),
+    }
+
