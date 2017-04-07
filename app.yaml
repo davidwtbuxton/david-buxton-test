@@ -11,13 +11,16 @@ handlers:
   - url: /tasks/.*
     script: wsgi.app
     login: admin
+    secure: always
 
   - url: /site.css
     static_files: site.css
     upload: site.css
+    secure: always
 
   - url: /.*
     script: wsgi.app
+    secure: always
 
 skip_files:
   - ^(.*/)?#.*#$
