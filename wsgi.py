@@ -1,12 +1,13 @@
 import datetime
 import functools
-import logging
 import os
 import re
 import sys
+import urlparse
 
 import bottle
 from google.appengine.api import memcache
+from google.appengine.api import urlfetch
 from google.appengine.ext import deferred
 
 
@@ -80,6 +81,43 @@ def cron_env():
         'env_updated': memcache.get('cron_env_updated'),
         'env_name': 'cron task',
     }
+
+
+@app.route('/appengine-env', name='appengine_env')
+@view('env.html')
+def appengine_env():
+    """This view just displays the env variables that were previously saved
+    in memcache.
+    """
+    return {
+        'env': (memcache.get('appengine_env') or []),
+        'env_updated': memcache.get('appengine_env_updated'),
+        'env_name': 'appengine request',
+    }
+
+
+@app.route('/tasks/appengine-env-trigger', name='appengine_env_trigger')
+def appengine_env_trigger():
+    """Make a request to the app itself with the urlfetch service, so that the
+    X-Appengine-Inbound-Appid header is added to the request.
+    """
+    url = bottle.request.url
+    url = urlparse.urljoin(url, bottle.url('appengine_env_save'))
+    urlfetch.fetch(url, follow_redirects=False)
+
+    return 'OK'
+
+
+@app.route('/tasks/appengine-env-save', name='appengine_env_save')
+def appengine_env_save():
+    """Save the request environment. The request should have the special
+    X-Appengine-Inbound-Appid header.
+    """
+    env = format_env()
+    memcache.set('appengine_env', env)
+    memcache.set('appengine_env_updated', datetime.datetime.utcnow())
+
+    return 'OK'
 
 
 @app.route('/tasks/environment')

@@ -8,6 +8,10 @@ builtins:
   - deferred: on
 
 handlers:
+
+  - url: /tasks/appengine-env-save
+    script: wsgi.app
+
   - url: /tasks/.*
     script: wsgi.app
     login: admin
