@@ -3,3 +3,7 @@ cron:
 - description: save deferred environment
   url: /tasks/environment
   schedule: every 15 minutes
+
+- description: trigger appengine request environment
+  url: /tasks/appengine-env-trigger
+  schedule: every 15 minutes
