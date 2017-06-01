@@ -110,12 +110,13 @@ def appengine_env_trigger():
 
 @app.route('/tasks/appengine-env-save', name='appengine_env_save')
 def appengine_env_save():
-    """Save the request environment. The request should have the special
+    """Save the request environment. The request must have the special
     X-Appengine-Inbound-Appid header.
     """
-    env = format_env()
-    memcache.set('appengine_env', env)
-    memcache.set('appengine_env_updated', datetime.datetime.utcnow())
+    if 'HTTP_X_APPENGINE_INBOUND_APPID' in os.environ:
+        env = format_env()
+        memcache.set('appengine_env', env)
+        memcache.set('appengine_env_updated', datetime.datetime.utcnow())
 
     return 'OK'
 
