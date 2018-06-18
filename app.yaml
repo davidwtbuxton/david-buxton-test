@@ -1,18 +1,15 @@
-runtime: python27
-api_version: 1
-threadsafe: true
+runtime: python38
 
-builtins:
-  - deferred: on
+entrypoint: gunicorn -b :$PORT wsgi:app
 
 handlers:
 
   - url: /tasks/appengine-env-save
-    script: wsgi.app
+    script: auto
 
   - url: /tasks/.*
-    script: wsgi.app
-    login: admin
+    script: auto
+    # login: admin
     secure: always
 
   - url: /site.css
@@ -21,15 +18,6 @@ handlers:
     secure: always
 
   - url: /.*
-    script: wsgi.app
+    script: auto
     secure: always
     login: required
-
-skip_files:
-  - ^(.*/)?#.*#$
-  - ^(.*/)?.*~$
-  - ^(.*/)?.*\.py[co]$
-  - ^(.*/)?.*/RCS/.*$
-  - ^(.*/)?\..*$
-
-  - ^.*\.(dist|egg)-info/

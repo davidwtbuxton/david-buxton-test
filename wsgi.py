@@ -3,12 +3,12 @@ import functools
 import os
 import re
 import sys
-import urlparse
+# import urlparse
 
 import bottle
-from google.appengine.api import memcache
-from google.appengine.api import urlfetch
-from google.appengine.ext import deferred
+# from google.appengine.api import memcache
+# from google.appengine.api import urlfetch
+# from google.appengine.ext import deferred
 
 
 bottle.debug(True)
