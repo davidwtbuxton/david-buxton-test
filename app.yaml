@@ -1,5 +1,3 @@
-application: david-buxton-test
-version: dev
 runtime: python27
 api_version: 1
 threadsafe: true
@@ -25,6 +23,7 @@ handlers:
   - url: /.*
     script: wsgi.app
     secure: always
+    login: required
 
 skip_files:
   - ^(.*/)?#.*#$
